@@ -1,0 +1,31 @@
+/* Featured designers report */
+table[data-hook="featured_designers"] td.order_count {
+    width: 180px;
+}
+
+table[data-hook="featured_designers"] td.order_total {
+    width: 180px;
+    text-align: right;
+}
+
+table[data-hook="featured_designer"] td.price,
+table[data-hook="featured_designer"] td.total {
+    width: 180px;
+    text-align: right;
+}
+
+/* Panoramic murals report */
+table[data-hook="panoramic_murals"] td.order_count {
+    width: 180px;
+}
+
+table[data-hook="panoramic_murals"] td.order_total {
+    width: 180px;
+    text-align: right;
+}
+
+table[data-hook="panoramic_mural"] td.price,
+table[data-hook="panoramic_mural"] td.total {
+    width: 180px;
+    text-align: right;
+}

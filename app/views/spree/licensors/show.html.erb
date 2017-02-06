@@ -1,0 +1,46 @@
+<div class="well">
+  <%= form_tag spree.licensors_admin_reports_path  do %>
+
+      <div class="row">
+        <div class="form-group date-range-filter">
+          <div class="col-md-12">
+            <%= label_tag nil, Spree.t(:date_range) %>
+          </div>
+          <div class="date-range-filter">
+            <div class="col-md-6">
+              <%= text_field_tag :updated_at_gt, params[:updated_at_gt], { class: 'datepicker datepicker-from form-control' } %>
+            </div>
+            <div class="col-md-6">
+              <%= text_field_tag :updated_at_lt, params[:updated_at_lt], { class: 'datepicker datepicker-to form-control' } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-12">
+            <div class="field checkbox">
+              <label>
+                <%= hidden_field_tag 'include_samples', '0' %>
+                <%= check_box_tag 'include_samples', '1', (params[:include_samples] == '1') %>
+                <%= Spree.t(:include_samples) %>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= button Spree.t(:search), 'search' %>
+      </div>
+
+  <% end %>
+</div>
+
+
+<%= @tmp %>
+<%= debug spree_current_user.licensor %>
+
+
+

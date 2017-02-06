@@ -1,0 +1,73 @@
+<% content_for :page_title do %>
+    <%= Spree.t(:licensors) %>
+<% end %>
+
+<% content_for :page_actions do %>
+    <%= link_to_with_icon 'arrow-left', Spree.t(:back_to_resource_list, resource: Spree.t(:report)), spree.admin_reports_url, class: 'btn btn-default' %>
+<% end %>
+
+<div class="well">
+    <%= form_tag spree.licensors_admin_reports_path  do %>
+
+      <div class="row">
+        <div class="form-group date-range-filter">
+          <div class="col-md-12">
+            <%= label_tag nil, Spree.t(:date_range) %>
+          </div>
+          <div class="date-range-filter">
+            <div class="col-md-6">
+              <%= text_field_tag :updated_at_gt, params[:updated_at_gt], { class: 'datepicker datepicker-from form-control' } %>
+            </div>
+            <div class="col-md-6">
+              <%= text_field_tag :updated_at_lt, params[:updated_at_lt], { class: 'datepicker datepicker-to form-control' } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-12">
+            <div class="field checkbox">
+              <label>
+                <%= hidden_field_tag 'include_samples', '0' %>
+                <%= check_box_tag 'include_samples', '1', (params[:include_samples] == '1') %>
+                <%= Spree.t(:include_samples) %>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= button Spree.t(:search), 'search' %>
+      </div>
+
+    <% end %>
+</div>
+
+<% unless @licensors.nil? %>
+
+    <table class="table table-bordered admin-report" data-hook="featured_designers">
+      <thead>
+      <tr>
+        <th class="licensor_name"><%= Spree.t(:licensor) %></th>
+        <th class="order_count"><%= Spree.t(:order_count) %></th>
+        <th class="order_total"><%= Spree.t(:order_total) %></th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <% @licensors.each do |licensor| %>
+            <tr>
+              <td class="licensor_name"><% if licensor[:order_count].to_i > 0 %><%= link_to licensor[:name], licensor_admin_reports_path(licensor[:id], updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]) %><% else %><%= licensor[:name] %><% end %></td>
+              <td class="order_count"><%= licensor[:order_count] %></td>
+              <td class="order_total"><%= Spree::Money.new(licensor[:order_total]).to_s %></td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= button_link_to Spree.t(:export_csv_file), licensors_csv_export_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]), { icon: 'export', class: 'btn btn-primary', id: 'btn-export-csv-file' } %>
+
+<% end %>

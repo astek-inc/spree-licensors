@@ -1,0 +1,42 @@
+<% content_for :page_title do %>
+    <%= link_to "#{Spree.t(:licensors)} #{@start_date} - #{@end_date}", licensors_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]) %>  / <%= @licensor.licensor.name %>
+<% end %>
+
+<% content_for :page_actions do %>
+    <%= link_to_with_icon 'arrow-left', Spree.t(:back_to_resource_list, resource: Spree.t(:report)), spree.admin_reports_url, class: 'btn btn-default' %>
+<% end %>
+
+<table class="table table-bordered admin-report" data-hook="featured_designer">
+  <thead>
+    <tr>
+      <th><%= Spree.t(:order_id) %></th>
+      <th><%= Spree.t(:product_name) %></th>
+      <th><%= Spree.t(:sku) %></th>
+      <th><%= Spree.t(:quantity) %></th>
+      <th><%= Spree.t(:price) %></th>
+      <th><%= Spree.t(:total) %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% totals = [] %>
+    <% @orders.each do |order| %>
+      <% total = order[:quantity].to_i * BigDecimal.new(order[:price]) %>
+      <% totals << total %>
+      <tr>
+        <td><%= order[:order_id] %></td>
+        <td><%= order[:product_name] %></td>
+        <td><%= order[:sku] %></td>
+        <td><%= order[:quantity] %></td>
+        <td class="price"><%= Spree::Money.new(order[:price]).to_s %></td>
+        <td class="total"><%= Spree::Money.new(total).to_s %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="5"></td>
+      <td class="total"><strong><%= Spree::Money.new(totals.sum).to_s %></strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= button_link_to Spree.t(:export_csv_file), licensor_csv_export_admin_reports_path(@licensor[:id], updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]), { icon: 'export', class: 'btn btn-primary', id: 'btn-export-csv-file' } %>
