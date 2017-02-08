@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-    <%= link_to "#{Spree.t(:licensors)} #{@start_date} - #{@end_date}", licensors_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]) %>  / <%= @licensor.licensor.name %>
+    <%= link_to "#{Spree.t(:licensors)} #{@start_date} - #{@end_date}", licensors_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]) %>  / <%= (@licensor.licensor.present? ? @licensor.licensor.name : @licensor.name) %>
 <% end %>
 
 <% content_for :page_actions do %>

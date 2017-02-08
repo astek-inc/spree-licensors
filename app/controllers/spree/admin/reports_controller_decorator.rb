@@ -21,9 +21,12 @@ Spree::Admin::ReportsController.class_eval do
     updated_at_lt = Time.zone.parse(params[:updated_at_lt]).end_of_day
     include_samples = params[:include_samples] == '1'
 
+    with_samples = include_samples ? '_with_samples' : ''
+    filename = "licensors_#{params[:updated_at_gt]}-#{params[:updated_at_lt]}#{with_samples}.csv"
+
     respond_to do |format|
       format.csv { send_data Spree::Order.licensors_to_csv(updated_at_gt, updated_at_lt, include_samples),
-                             filename: "featured_designers_#{params[:updated_at_gt]}-#{params[:updated_at_lt]}.csv",
+                             filename: filename,
                              type: 'text/csv' }
     end
   end
@@ -53,9 +56,12 @@ Spree::Admin::ReportsController.class_eval do
     licensor = Spree::Taxon.find(taxon_id)
     licensor_name = licensor.name.gsub(/\W/, '_').downcase!
 
+    with_samples = include_samples ? '_with_samples' : ''
+    filename = "#{licensor_name}_#{params[:updated_at_gt]}-#{params[:updated_at_lt]}#{with_samples}.csv"
+
     respond_to do |format|
       format.csv { send_data Spree::Order.licensor_to_csv(taxon_id, updated_at_gt, updated_at_lt, include_samples),
-                             filename: "#{licensor_name}_#{params[:updated_at_gt]}-#{params[:updated_at_lt]}.csv",
+                             filename: filename,
                              type: 'text/csv' }
     end
   end
