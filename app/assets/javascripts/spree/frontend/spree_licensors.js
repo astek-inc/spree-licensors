@@ -1,8 +1,8 @@
 //= require jquery-ui/datepicker
 
 // From assets/javascripts/spree/backend/admin.js
-//var DYW = DYW || {
-    handle_date_picker_fields = function(){
+var DYW = DYW || {
+    handle_date_picker_fields: function(){
         $('.datepicker').datepicker({
             dateFormat: 'yy/mm/dd',
             // dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -22,9 +22,8 @@
             $('.date-range-filter .datepicker-from' ).datepicker( 'option', 'maxDate', selectedDate );
         });
     }
-// };
+};
 
 $(function() {
-    //DYW.
-    handle_date_picker_fields();
+    DYW.handle_date_picker_fields();
 });
