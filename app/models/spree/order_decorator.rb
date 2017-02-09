@@ -10,6 +10,7 @@ Spree::Order.class_eval do
       data = []
 
       samples_sql = include_samples ? '' : "AND V.sku NOT LIKE '%_sample'"
+
       licensors.each do |licensor|
 
         product_ids = licensor_products(licensor).map(&:id).join(',')
@@ -25,11 +26,17 @@ Spree::Order.class_eval do
         WHERE
           P.id IN(#{product_ids})
           AND O.state = 'complete'
-          AND O.completed_at BETWEEN '#{updated_at_gt}' AND '#{updated_at_lt}'
+          AND O.completed_at BETWEEN #{sanitize(updated_at_gt)} AND #{sanitize(updated_at_lt)}
           #{samples_sql}"
 
         res = ActiveRecord::Base.connection.execute(sql)[0]
-        data << { id: licensor.id, name: licensor.licensor.present? ? licensor.licensor.name : licensor.name, order_count: res['order_count'], order_total: res['order_total'] }
+
+        data << {
+            id: licensor.id,
+            name: licensor.licensor.present? ? licensor.licensor.name : licensor.name,
+            order_count: res['order_count'],
+            order_total: res['order_total']
+        }
 
       end
 
@@ -39,50 +46,8 @@ Spree::Order.class_eval do
 
     # For export to a CSV file, get all completed orders for all licensors within a date range
     def licensors_csv updated_at_gt, updated_at_lt, include_samples
-
-      # samples_sql = include_samples ? '' : "AND V.sku NOT LIKE '%_sample'"
-
       data = []
       licensors.each do |licensor|
-
-        # product_ids = licensor_products(licensor).map(&:id).join(',')
-        #
-        # sql = "SELECT
-        #     O.id AS order_id,
-        #     P.name AS product_name,
-        #     V.sku,
-        #     V.id AS variant_id,
-        #     L.quantity,
-        #     L.price
-        #   FROM
-        #     spree_orders O
-        #     INNER JOIN spree_line_items L ON O.id = L.order_id
-        #     INNER JOIN spree_variants V ON L.variant_id = V.id
-        #     INNER JOIN spree_products P ON V.product_id = P.id
-        #   WHERE
-        #     P.id IN(#{product_ids})
-        #     AND O.state = 'complete'
-        #     AND O.completed_at BETWEEN '#{updated_at_gt}' AND '#{updated_at_lt}'
-        #     #{samples_sql}
-        #   ORDER BY
-        #     P.name,
-        #     V.sku,
-        #     V.id"
-        #
-        # res = ActiveRecord::Base.connection.execute(sql)
-        #
-        # res.each do |row|
-        #   data << {
-        #       order_id: row['order_id'],
-        #       designer_name: designer.name,
-        #       product_name: row['product_name'],
-        #       sku: row['sku'],
-        #       variant_id: row['variant_id'],
-        #       quantity: row['quantity'],
-        #       price: row['price']
-        #   }
-        # end
-
         report = self.licensor_report licensor.id, updated_at_gt, updated_at_lt, include_samples
         report.each do |row|
           data << {
@@ -94,11 +59,8 @@ Spree::Order.class_eval do
               price: row[:price]
           }
         end
-
       end
-
       data
-
     end
 
     # Export all completed orders for all licensors within a date range
@@ -136,7 +98,7 @@ Spree::Order.class_eval do
       WHERE
         P.id IN(#{product_ids})
         AND O.state = 'complete'
-        AND O.completed_at BETWEEN '#{updated_at_gt}' AND '#{updated_at_lt}'
+        AND O.completed_at BETWEEN #{sanitize(updated_at_gt)} AND #{sanitize(updated_at_lt)}
         #{samples_sql}
       ORDER BY
         P.name,
