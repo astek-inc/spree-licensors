@@ -36,4 +36,4 @@ Simply add this require statement to your spec_helper:
 require 'spree_licensors/factories'
 ```
 
-Copyright (c) 2017 [name of extension creator], released under the New BSD License
+Copyright (c) 2017 Astek Wallcovering, Inc., released under the New BSD License
