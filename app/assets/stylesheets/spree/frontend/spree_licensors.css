@@ -145,3 +145,19 @@
 #ui-datepicker-div table.ui-datepicker-calendar td:active a {
     color: white;
 }
+
+#licensor-container {
+
+}
+
+#licensor-container #report {
+    margin-top: 30px;
+    min-height: 300px;
+}
+
+#licensor-container #report table th.price,
+#licensor-container #report table th.total,
+#licensor-container #report table td.price,
+#licensor-container #report table td.total {
+    text-align: right;
+}

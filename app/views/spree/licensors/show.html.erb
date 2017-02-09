@@ -43,42 +43,44 @@
     <% end %>
   </div>
 
-  <% if @orders.present? %>
-      <table class="table table-bordered admin-report" data-hook="featured_designer">
-        <thead>
-        <tr>
-          <th><%= Spree.t(:order_id) %></th>
-          <th><%= Spree.t(:product_name) %></th>
-          <th><%= Spree.t(:sku) %></th>
-          <th><%= Spree.t(:quantity) %></th>
-          <th><%= Spree.t(:price) %></th>
-          <th><%= Spree.t(:total) %></th>
-        </tr>
-        </thead>
+  <div id="report">
+    <% if @orders.present? %>
+        <table class="table table-bordered report" data-hook="licensor">
+          <thead>
+          <tr>
+            <th><%= Spree.t(:order_id) %></th>
+            <th><%= Spree.t(:product_name) %></th>
+            <th><%= Spree.t(:sku) %></th>
+            <th><%= Spree.t(:quantity) %></th>
+            <th class="price"><%= Spree.t(:price) %></th>
+            <th class="total"><%= Spree.t(:total) %></th>
+          </tr>
+          </thead>
 
-        <tbody>
-        <% totals = [] %>
-        <% @orders.each do |order| %>
-            <% total = order[:quantity].to_i * BigDecimal.new(order[:price]) %>
-            <% totals << total %>
-            <tr>
-              <td><%= order[:order_id] %></td>
-              <td><%= order[:product_name] %></td>
-              <td><%= order[:sku] %></td>
-              <td><%= order[:quantity] %></td>
-              <td class="price"><%= Spree::Money.new(order[:price]).to_s %></td>
-              <td class="total"><%= Spree::Money.new(total).to_s %></td>
-            </tr>
-        <% end %>
-        <tr>
-          <td colspan="5"></td>
-          <td class="total"><strong><%= Spree::Money.new(totals.sum).to_s %></strong></td>
-        </tr>
-        </tbody>
-      </table>
-  <% else %>
-      <p>No orders found for the selected date range.</p>
-  <% end %>
+          <tbody>
+          <% totals = [] %>
+          <% @orders.each do |order| %>
+              <% total = order[:quantity].to_i * BigDecimal.new(order[:price]) %>
+              <% totals << total %>
+              <tr>
+                <td><%= order[:order_id] %></td>
+                <td><%= order[:product_name] %></td>
+                <td><%= order[:sku] %></td>
+                <td><%= order[:quantity] %></td>
+                <td class="price"><%= Spree::Money.new(order[:price]).to_s %></td>
+                <td class="total"><%= Spree::Money.new(total).to_s %></td>
+              </tr>
+          <% end %>
+          <tr>
+            <td colspan="5"></td>
+            <td class="total"><strong><%= Spree::Money.new(totals.sum).to_s %></strong></td>
+          </tr>
+          </tbody>
+        </table>
+    <% else %>
+        <p>No orders found for the selected date range.</p>
+    <% end %>
+  </div>
 </div>
 
 
