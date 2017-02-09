@@ -1,46 +1,88 @@
-<div class="well">
-  <%= form_tag spree.licensors_admin_reports_path  do %>
+<div id="licensor-container">
+  <div class="page-header">
+    <h1><%= @licensor.name %> <small>Sales reports</small></h1>
+  </div>
 
-      <div class="row">
-        <div class="form-group date-range-filter">
-          <div class="col-md-12">
-            <%= label_tag nil, Spree.t(:date_range) %>
-          </div>
-          <div class="date-range-filter">
-            <div class="col-md-6">
-              <%= text_field_tag :updated_at_gt, params[:updated_at_gt], { class: 'datepicker datepicker-from form-control' } %>
-            </div>
-            <div class="col-md-6">
-              <%= text_field_tag :updated_at_lt, params[:updated_at_lt], { class: 'datepicker datepicker-to form-control' } %>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="well">
+    <%= form_tag licensor_report_path do %>
 
-      <div class="row">
-        <div class="form-group">
-          <div class="col-md-12">
-            <div class="field checkbox">
-              <label>
-                <%= hidden_field_tag 'include_samples', '0' %>
-                <%= check_box_tag 'include_samples', '1', (params[:include_samples] == '1') %>
-                <%= Spree.t(:include_samples) %>
-              </label>
+        <div class="row">
+          <div class="form-group date-range-filter">
+            <div class="col-md-12">
+              <%= label_tag nil, Spree.t(:date_range) %>
+            </div>
+            <div class="date-range-filter">
+              <div class="col-md-6">
+                <%= text_field_tag :updated_at_gt, params[:updated_at_gt], { class: 'datepicker datepicker-from form-control', required: true } %>
+              </div>
+              <div class="col-md-6">
+                <%= text_field_tag :updated_at_lt, params[:updated_at_lt], { class: 'datepicker datepicker-to form-control', required: true } %>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-actions">
-        <%= button Spree.t(:search), 'search' %>
-      </div>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="field checkbox">
+                <label>
+                  <%= hidden_field_tag 'include_samples', '0' %>
+                  <%= check_box_tag 'include_samples', '1', (params[:include_samples] == '1') %>
+                  <%= Spree.t(:include_samples) %>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="form-actions">
+          <%= button Spree.t(:search), 'search' %>
+        </div>
+
+    <% end %>
+  </div>
+
+  <% if @orders.present? %>
+      <table class="table table-bordered admin-report" data-hook="featured_designer">
+        <thead>
+        <tr>
+          <th><%= Spree.t(:order_id) %></th>
+          <th><%= Spree.t(:product_name) %></th>
+          <th><%= Spree.t(:sku) %></th>
+          <th><%= Spree.t(:quantity) %></th>
+          <th><%= Spree.t(:price) %></th>
+          <th><%= Spree.t(:total) %></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% totals = [] %>
+        <% @orders.each do |order| %>
+            <% total = order[:quantity].to_i * BigDecimal.new(order[:price]) %>
+            <% totals << total %>
+            <tr>
+              <td><%= order[:order_id] %></td>
+              <td><%= order[:product_name] %></td>
+              <td><%= order[:sku] %></td>
+              <td><%= order[:quantity] %></td>
+              <td class="price"><%= Spree::Money.new(order[:price]).to_s %></td>
+              <td class="total"><%= Spree::Money.new(total).to_s %></td>
+            </tr>
+        <% end %>
+        <tr>
+          <td colspan="5"></td>
+          <td class="total"><strong><%= Spree::Money.new(totals.sum).to_s %></strong></td>
+        </tr>
+        </tbody>
+      </table>
+  <% else %>
+      <p>No orders found for the selected date range.</p>
   <% end %>
 </div>
 
 
-<%= @tmp %>
-<%= debug spree_current_user.licensor %>
+<%#= debug @licensor %>
 
 
 

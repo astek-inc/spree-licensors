@@ -1,6 +1,7 @@
 Spree::Core::Engine.routes.draw do
 
-  get :licensor, to: 'licensors#show', as: licensor
+  get 'licensor', to: 'licensors#show', as: :licensor
+  post 'licensor', to: 'licensors#show', as: :licensor_report
 
   namespace :admin do
 
