@@ -40,13 +40,14 @@ Spree::Order.class_eval do
 
       end
 
-      data
+      data.sort_by! { |item| item[:name] }
 
     end
 
     # For export to a CSV file, get all completed orders for all licensors within a date range
     def licensors_csv updated_at_gt, updated_at_lt, include_samples
       data = []
+
       licensors.each do |licensor|
         report = self.licensor_report licensor.id, updated_at_gt, updated_at_lt, include_samples
         report.each do |row|
@@ -60,7 +61,8 @@ Spree::Order.class_eval do
           }
         end
       end
-      data
+
+      data.sort_by! { |item| item[:designer_name] }
     end
 
     # Export all completed orders for all licensors within a date range
