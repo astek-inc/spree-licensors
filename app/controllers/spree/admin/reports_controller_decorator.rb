@@ -1,5 +1,7 @@
 Spree::Admin::ReportsController.class_eval do
 
+  include Spree::LicensorsHelper
+
   before_action :add_licensors_report
 
   def add_licensors_report
@@ -11,6 +13,12 @@ Spree::Admin::ReportsController.class_eval do
     updated_at_gt = Time.zone.parse(params[:updated_at_gt]).beginning_of_day
     updated_at_lt = Time.zone.parse(params[:updated_at_lt]).end_of_day
     include_samples = params[:include_samples] == '1'
+
+    unless valid_date_range? updated_at_gt, updated_at_lt
+      flash[:error] = 'Start date must be earlier than end date.'
+      redirect_to licensors_admin_reports_path
+      return
+    end
 
     @licensors = Spree::Order.licensors_summary updated_at_gt, updated_at_lt, include_samples
   end
@@ -39,6 +47,12 @@ Spree::Admin::ReportsController.class_eval do
     updated_at_lt = Time.zone.parse(params[:updated_at_lt]).end_of_day
     include_samples = params[:include_samples] == '1'
 
+    unless valid_date_range? updated_at_gt, updated_at_lt
+      flash[:error] = 'Start date must be earlier than end date.'
+      redirect_to licensors_admin_reports_path
+      return
+    end
+
     @licensor = Spree::Taxon.find(taxon_id)
     @start_date = Date.parse(params[:updated_at_gt]).strftime('%b %-d, %Y')
     @end_date = Date.parse(params[:updated_at_lt]).strftime('%b %-d, %Y')
@@ -52,6 +66,11 @@ Spree::Admin::ReportsController.class_eval do
     updated_at_gt = Time.zone.parse(params[:updated_at_gt]).beginning_of_day
     updated_at_lt = Time.zone.parse(params[:updated_at_lt]).end_of_day
     include_samples = params[:include_samples] == '1'
+
+    unless valid_date_range? updated_at_gt, updated_at_lt
+      puts 'Start date must be earlier than end date.'
+      return
+    end
 
     licensor = Spree::Taxon.find(taxon_id)
     licensor_name = licensor.name.gsub(/\W/, '_').downcase!

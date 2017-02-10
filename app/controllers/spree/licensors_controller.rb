@@ -1,6 +1,8 @@
 module Spree
   class LicensorsController < Spree::StoreController
 
+    include Spree::LicensorsHelper
+
     def show
 
       # If user is not signed in, or is not a licensor, redirect to home page
@@ -16,19 +18,15 @@ module Spree
         updated_at_lt = Time.zone.parse(params[:updated_at_lt]).end_of_day
         include_samples = params[:include_samples] == '1'
 
-        if valid_date_range? updated_at_gt, updated_at_lt
-          @orders = Spree::Order.licensor_report @licensor.taxon_id, updated_at_gt, updated_at_lt, include_samples
+        unless valid_date_range? updated_at_gt, updated_at_lt
+          flash[:error] = 'Start date must be earlier than end date.'
+          redirect_to licensor_path
+          return
         end
-      end
-    end
 
-    def valid_date_range? updated_at_gt, updated_at_lt
-      unless updated_at_gt < updated_at_lt
-        flash[:warning] = 'Start date must be earlier than end date.'
-        redirect_to licensor_path
-        return
+        @orders = Spree::Order.licensor_report @licensor.taxon_id, updated_at_gt, updated_at_lt, include_samples
       end
-      true
+
     end
 
   end
