@@ -140,9 +140,11 @@ Spree::Order.class_eval do
 
     # Get all products for a given licensor's taxon, and any child taxons
     def licensor_products licensor
-      taxon_products = licensor.products
-      child_products = licensor.children.includes(:products).map(&:products).flatten.compact.uniq
-      taxon_products + child_products
+      # taxon_products = licensor.products
+      # child_products = licensor.children.includes(:products).map(&:products).flatten.compact.uniq
+      # taxon_products + child_products
+
+      Spree::Product.in_taxon licensor
     end
 
     def licensors
