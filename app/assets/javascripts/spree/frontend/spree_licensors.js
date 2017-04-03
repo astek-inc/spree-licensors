@@ -1,7 +1,9 @@
 //= require jquery-ui/datepicker
 
 // From assets/javascripts/spree/backend/admin.js
-var DYW = DYW || {
+var DYW = DYW || {};
+
+DYW.licensors = {
     handle_date_picker_fields: function(){
         $('.datepicker').datepicker({
             dateFormat: 'yy/mm/dd',
@@ -24,6 +26,6 @@ var DYW = DYW || {
     }
 };
 
-$(function() {
-    DYW.handle_date_picker_fields();
+$(function(){
+    DYW.licensors.handle_date_picker_fields();
 });
