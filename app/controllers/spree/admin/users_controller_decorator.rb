@@ -1,5 +1,5 @@
 Spree::Admin::UsersController.class_eval do
-  before_action :set_licensor_data, only: [:edit]
+  before_action :set_licensor_data, only: [:edit, :create, :update]
 
   private
 
