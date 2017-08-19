@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_licensors'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.summary     = 'Track orders for licensed designs'
   s.description = 'Track orders for licensed designs, and allow licensors to view sales of their designs.'
   s.required_ruby_version = '>= 2.0.0'
