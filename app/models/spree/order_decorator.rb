@@ -53,6 +53,7 @@ Spree::Order.class_eval do
         report.each do |row|
           data << {
               order_id: row[:order_id],
+              order_number: row[:order_number],
               designer_name: licensor.licensor.present? ? licensor.licensor.name : licensor.name,
               product_name: row[:product_name],
               sku: row[:sku],
@@ -68,7 +69,7 @@ Spree::Order.class_eval do
     # Export all completed orders for all licensors within a date range
     def licensors_to_csv updated_at_gt, updated_at_lt, include_samples
       data = self.licensors_csv updated_at_gt, updated_at_lt, include_samples
-      attributes = %w[order_id designer_name product_name sku quantity price]
+      attributes = %w[order_id order_number designer_name product_name sku quantity price]
       CSV.generate(headers: true) do |csv|
         csv << attributes
         data.each do |row|
@@ -88,6 +89,7 @@ Spree::Order.class_eval do
 
       sql = "SELECT
         O.id AS order_id,
+        O.number AS order_number,
         P.name AS product_name,
         V.sku,
         L.quantity,
@@ -114,6 +116,7 @@ Spree::Order.class_eval do
       res.each do |row|
         data << {
             order_id: row['order_id'],
+            order_number: row['order_number'],
             product_name: row['product_name'],
             sku: row['sku'],
             quantity: row['quantity'],
@@ -128,7 +131,7 @@ Spree::Order.class_eval do
     # Export all completed orders for a licensor within a date range
     def licensor_to_csv taxon_id, updated_at_gt, updated_at_lt, include_samples
       data = self.licensor_report taxon_id, updated_at_gt, updated_at_lt, include_samples
-      attributes = %w[order_id product_name sku quantity price]
+      attributes = %w[order_id order_number product_name sku quantity price]
       CSV.generate(headers: true) do |csv|
         csv << attributes
         data.each do |row|
