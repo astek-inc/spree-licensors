@@ -9,7 +9,7 @@
         <div class="row">
           <div class="form-group date-range-filter">
             <div class="col-md-12">
-              <%= label_tag nil, Spree.t(:date_range) %>
+              <%= label_tag nil, t(:date_range, scope: :spree_licensors) %>
             </div>
             <div class="date-range-filter">
               <div class="col-md-6">
@@ -29,7 +29,7 @@
                 <label>
                   <%= hidden_field_tag 'include_samples', '0' %>
                   <%= check_box_tag 'include_samples', '1', (params[:include_samples] == '1') %>
-                  <%= Spree.t(:include_samples) %>
+                  <%= t(:include_samples, scope: :spree_licensors) %>
                 </label>
               </div>
             </div>
@@ -48,12 +48,12 @@
         <table class="table table-bordered report" data-hook="licensor">
           <thead>
           <tr>
-            <th><%= Spree.t(:order_id) %></th>
-            <th><%= Spree.t(:product_name) %></th>
-            <th><%= Spree.t(:sku) %></th>
-            <th><%= Spree.t(:quantity) %></th>
-            <th class="price"><%= Spree.t(:price) %></th>
-            <th class="total"><%= Spree.t(:total) %></th>
+            <th><%= t(:order_id, scope: :spree_licensors) %></th>
+            <th><%= t(:product_name, scope: :spree_licensors) %></th>
+            <th><%= t(:sku, scope: :spree_licensors) %></th>
+            <th><%= t(:quantity, scope: :spree_licensors) %></th>
+            <th class="price"><%= t(:price, scope: :spree_licensors) %></th>
+            <th class="total"><%= t(:total, scope: :spree_licensors) %></th>
           </tr>
           </thead>
 

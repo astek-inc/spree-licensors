@@ -1,11 +1,16 @@
 en:
-  spree:
+  spree_licensors:
     export_csv_file: 'Export CSV File'
     licensor: 'Licensor'
     licensors: 'Licensors'
     licensors_description: 'Totals for Licensor Orders'
+    date_range: 'Date Range'
     include_samples: 'Include Samples'
     order_count: 'Order Count'
     order_id: 'Order ID'
     order_number: 'Order Number'
     product_name: 'Product Name'
+    sku: 'SKU'
+    quantity: 'Quantity'
+    price: 'Price'
+    total: 'Total'

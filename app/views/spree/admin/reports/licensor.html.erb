@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-    <%= link_to "#{Spree.t(:licensors)} #{@start_date} - #{@end_date}", licensors_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]) %>  / <%= (@licensor.licensor.present? ? @licensor.licensor.name : @licensor.name) %>
+    <%= link_to "#{t(:licensors, scope: :spree_licensors)} #{@start_date} - #{@end_date}", licensors_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]) %>  / <%= (@licensor.licensor.present? ? @licensor.licensor.name : @licensor.name) %>
 <% end %>
 
 <% content_for :page_actions do %>
@@ -9,13 +9,13 @@
 <table class="table table-bordered admin-report" data-hook="featured_designer">
   <thead>
     <tr>
-      <th><%= Spree.t(:order_id) %></th>
-      <th><%= t(:order_number, scope: :spree) %></th>
-      <th><%= Spree.t(:product_name) %></th>
-      <th><%= Spree.t(:sku) %></th>
-      <th><%= Spree.t(:quantity) %></th>
-      <th><%= Spree.t(:price) %></th>
-      <th><%= Spree.t(:total) %></th>
+      <th><%= t(:order_id, scope: :spree_licensors) %></th>
+      <th><%= t(:order_number, scope: :spree_licensors) %></th>
+      <th><%= t(:product_name, scope: :spree_licensors) %></th>
+      <th><%= t(:sku, scope: :spree_licensors) %></th>
+      <th><%= t(:quantity, scope: :spree_licensors) %></th>
+      <th><%= t(:price, scope: :spree_licensors) %></th>
+      <th><%= t(:total, scope: :spree_licensors) %></th>
     </tr>
   </thead>
 
@@ -41,4 +41,4 @@
   </tbody>
 </table>
 
-<%= button_link_to Spree.t(:export_csv_file), licensor_csv_export_admin_reports_path(@licensor[:id], updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]), { icon: 'export', class: 'btn btn-primary', id: 'btn-export-csv-file' } %>
+<%= button_link_to t(:export_csv_file, scope: :spree_licensors), licensor_csv_export_admin_reports_path(@licensor[:id], updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]), { icon: 'export', class: 'btn btn-primary', id: 'btn-export-csv-file' } %>

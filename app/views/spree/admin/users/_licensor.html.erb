@@ -1,7 +1,7 @@
 <div data-hook="admin_user_licensor" id="admin_user_licensor_edit" class="panel panel-default">
   <div class="panel-heading">
     <h1 class="panel-title">
-      <%= Spree.t('licensor') %>
+      <%= t('licensor', scope: :spree_licensors) %>
     </h1>
   </div>
 
@@ -15,7 +15,7 @@
           <div data-hook="admin_user_licensor_form_fields" class="row">
             <div class="col-md-6">
               <%= f.field_container :name, class: ['form-group'] do %>
-                  <%= f.label :name, Spree.t(:name) %>
+                  <%= f.label :name, t(:name, scope: :spree_licensors) %>
                   <%= f.text_field :name, class: 'form-control' %>
                   <%= error_message_on :user, :licensor, :name %>
               <% end %>
@@ -23,7 +23,7 @@
 
             <div class="col-md-6">
               <%= f.field_container :taxon_id, class: ['form-group'] do %>
-                  <%= f.label :taxon_id, Spree.t(:taxon) %>
+                  <%= f.label :taxon_id, t(:taxon, scope: :spree_licensors) %>
                   <%= f.collection_select(:taxon_id, @licensor_taxons, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
                   <%= f.error_message_on :taxon_id %>
               <% end %>

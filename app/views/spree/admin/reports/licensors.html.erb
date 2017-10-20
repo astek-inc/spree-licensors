@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-    <%= Spree.t(:licensors) %>
+    <%= t(:licensors, scope: :spree_licensors) %>
 <% end %>
 
 <% content_for :page_actions do %>
@@ -12,7 +12,7 @@
       <div class="row">
         <div class="form-group date-range-filter">
           <div class="col-md-12">
-            <%= label_tag nil, Spree.t(:date_range) %>
+            <%= label_tag nil, t(:date_range, scope: :spree_licensors) %>
           </div>
           <div class="date-range-filter">
             <div class="col-md-6">
@@ -32,7 +32,7 @@
               <label>
                 <%= hidden_field_tag 'include_samples', '0' %>
                 <%= check_box_tag 'include_samples', '1', (params[:include_samples] == '1') %>
-                <%= Spree.t(:include_samples) %>
+                <%= t(:include_samples, scope: :spree_licensors) %>
               </label>
             </div>
           </div>
@@ -51,9 +51,9 @@
     <table class="table table-bordered admin-report" data-hook="featured_designers">
       <thead>
       <tr>
-        <th class="licensor_name"><%= Spree.t(:licensor) %></th>
-        <th class="order_count"><%= Spree.t(:order_count) %></th>
-        <th class="order_total"><%= Spree.t(:order_total) %></th>
+        <th class="licensor_name"><%= t(:licensor, scope: :spree_licensors) %></th>
+        <th class="order_count"><%= t(:order_count, scope: :spree_licensors) %></th>
+        <th class="order_total"><%= t(:order_total, scope: :spree_licensors) %></th>
       </tr>
       </thead>
 
@@ -68,6 +68,6 @@
       </tbody>
     </table>
 
-    <%= button_link_to Spree.t(:export_csv_file), licensors_csv_export_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]), { icon: 'export', class: 'btn btn-primary', id: 'btn-export-csv-file' } %>
+    <%= button_link_to t(:export_csv_file, scope: :spree_licensors), licensors_csv_export_admin_reports_path(updated_at_gt: params[:updated_at_gt], updated_at_lt: params[:updated_at_lt], include_samples: params[:include_samples]), { icon: 'export', class: 'btn btn-primary', id: 'btn-export-csv-file' } %>
 
 <% end %>
