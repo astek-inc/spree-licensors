@@ -1,9 +1,11 @@
 en:
+  spree:
+    licensors_description: 'Totals for Licensor Orders'
+
   spree_licensors:
     export_csv_file: 'Export CSV File'
     licensor: 'Licensor'
     licensors: 'Licensors'
-    licensors_description: 'Totals for Licensor Orders'
     date_range: 'Date Range'
     include_samples: 'Include Samples'
     order_count: 'Order Count'
